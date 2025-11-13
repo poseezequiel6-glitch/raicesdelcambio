@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Sensorial para Niños - Raíces del Cambio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f7ff 50%, #fce4ec 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Partículas flotantes de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(135, 206, 250, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 250, 205, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* Vaquitas flotantes de fondo */
+        .cow-float {
+            position: fixed;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatCow 15s ease-in-out infinite;
+        }
+
+        .cow-float:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .cow-float:nth-child(2) {
+            top: 30%;
+            right: 10%;
+            animation-delay: 3s;
+            animation-duration: 18s;
+        }
+
+        .cow-float:nth-child(3) {
+            top: 60%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        .cow-float:nth-child(4) {
+            top: 80%;
+            right: 20%;
+            animation-delay: 9s;
+            animation-duration: 16s;
+        }
+
+        .cow-float:nth-child(5) {
+            top: 45%;
+            left: 80%;
+            animation-delay: 12s;
+            animation-duration: 22s;
+        }
+
+        @keyframes floatCow {
+            0%, 100% { 
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.15;
+            }
+            25% {
+                transform: translateY(-30px) translateX(20px) rotate(5deg);
+                opacity: 0.25;
+            }
+            50% { 
+                transform: translateY(-15px) translateX(-15px) rotate(-3deg);
+                opacity: 0.2;
+            }
+            75% {
+                transform: translateY(-25px) translateX(10px) rotate(4deg);
+                opacity: 0.18;
+            }
+        }
+
+        /* Header premium con glassmorphism */
+        header {
+            background: rgba(255, 228, 225, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .logo h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.3);
+        }
+
+        .logo i {
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            color: #d63384;
+            filter: drop-shadow(0 2px 5px rgba(214, 51, 132, 0.3));
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: clamp(1rem, 3vw, 2rem);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4682b4;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            padding: 0.6rem 1.3rem;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.6s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(70, 130, 180, 0.3);
+        }
+
+        main {
+            padding-top: 120px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Intro hero section con parallax effect */
+        .intro {
+            padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 3vw, 2rem);
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .intro::before {
+            content: '✨';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            font-size: 3rem;
+            opacity: 0.3;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .intro::after {
+            content: '🎨';
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+            font-size: 3rem;
+            opacity: 0.3;
+            animation: twinkle 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(15deg); opacity: 0.6; }
+        }
+
+        .intro h2 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            background: linear-gradient(135deg, #4682b4, #d63384, #4682b4);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            font-weight: 800;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .intro p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            animation: fadeIn 1.2s ease-out 0.3s both;
+        }
+
+        /* Why choose section con cards premium */
+        .why-choose {
+            padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 3vw, 2rem);
+            background: linear-gradient(135deg, rgba(255, 250, 205, 0.4) 0%, rgba(245, 245, 220, 0.4) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-choose::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .why-choose h2 {
+            text-align: center;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            background: linear-gradient(135deg, #4682b4, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: clamp(2rem, 4vw, 3rem);
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .block {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: clamp(1.8rem, 3vw, 2.8rem);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .block:nth-child(1) { animation-delay: 0.1s; }
+        .block:nth-child(2) { animation-delay: 0.2s; }
+        .block:nth-child(3) { animation-delay: 0.3s; }
+        .block:nth-child(4) { animation-delay: 0.4s; }
+        .block:nth-child(5) { animation-delay: 0.5s; }
+        .block:nth-child(6) { animation-delay: 0.6s; }
+
+        .block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(70, 130, 180, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .block:hover::before {
+            opacity: 1;
+        }
+
+        .block::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #ffb6c1, #4682b4, #d63384);
+            background-size: 200% auto;
+            animation: gradientFlow 3s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .block:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border-color: rgba(214, 51, 132, 0.3);
+        }
+
+        .block h3 {
+            color: #d63384;
+            font-size: clamp(1.3rem, 3vw, 1.7rem);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            line-height: 1.4;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .block h3 i {
+            flex-shrink: 0;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.3s ease;
+        }
+
+        .block:hover h3 i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .block-image-container {
+            width: 100%;
+            height: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.95);
+        }
+
+        .block:hover img {
+            transform: scale(1.15) rotate(2deg);
+            filter: brightness(1);
+        }
+
+        .block-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(214, 51, 132, 0.2), rgba(70, 130, 180, 0.2));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .block:hover .block-image-container::after {
+            opacity: 1;
+        }
+
+        .block p {
+            color: #444;
+            font-size: clamp(0.98rem, 2vw, 1.12rem);
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Board section con efectos avanzados */
+        .board {
+            padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 3vw, 2rem);
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .board h2 {
+            text-align: center;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            background: linear-gradient(135deg, #4682b4, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(2rem, 4vw, 3rem);
+        }
+
+        .element {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: clamp(2rem, 4vw, 2.8rem);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            animation: fadeInScale 0.8s ease-out both;
+        }
+
+        .element:nth-child(1) { animation-delay: 0.1s; }
+        .element:nth-child(2) { animation-delay: 0.2s; }
+        .element:nth-child(3) { animation-delay: 0.3s; }
+        .element:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .element::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(214, 51, 132, 0.2), rgba(70, 130, 180, 0.2));
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .element:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .element:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(214, 51, 132, 0.4);
+        }
+
+        .element-image-container {
+            width: clamp(110px, 22vw, 160px);
+            height: clamp(110px, 22vw, 160px);
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .element img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #ffb6c1, #4682b4) border-box;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .element:hover img {
+            transform: rotate(10deg) scale(1.1);
+            border-width: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .element h3 {
+            color: #4682b4;
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .element p {
+            color: #666;
+            font-size: clamp(0.95rem, 2vw, 1.08rem);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Modal premium con efectos modernos */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            animation: modalFadeIn 0.4s ease-out;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(230, 247, 255, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            margin: 2rem auto;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 750px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #ffb6c1, #4682b4, #d63384);
+            border-radius: 30px 30px 0 0;
+        }
+
+        .close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .close:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            background: linear-gradient(135deg, #4682b4, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.8rem;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            line-height: 1.3;
+            padding-right: 3rem;
+            font-weight: 800;
+        }
+
+        .modal-content p {
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            line-height: 1.9;
+            color: #444;
+        }
+
+        /* Contact section premium */
+        .contact {
+            padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 3vw, 2rem);
+            background: linear-gradient(135deg, rgba(230, 247, 255, 0.6) 0%, rgba(240, 248, 255, 0.6) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(135, 206, 250, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .contact h2 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            background: linear-gradient(135deg, #4682b4, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            gap: clamp(1.5rem, 3vw, 2rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info p {
+            font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            line-height: 1.6;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .contact-info p:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: rgba(214, 51, 132, 0.3);
+        }
+
+        .contact-info i {
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
+        }
+
+        .contact-info a {
+            color: #4682b4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            word-break: break-word;
+        }
+
+        .contact-info a:hover {
+            color: #d63384;
+        }
+
+        /* Footer premium */
+        footer {
+            background: linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(255, 228, 225, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+            text-align: center;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        footer p {
+            color: #666;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.5rem, 4vw, 2.5rem);
+            flex-wrap: wrap;
+        }
+
+        footer .social-links a {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            color: white;
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer .social-links a:hover {
+            transform: translateY(-8px) scale(1.15) rotate(10deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* WhatsApp floating button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: clamp(55px, 11vw, 65px);
+            height: clamp(55px, 11vw, 65px);
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            animation: pulseWhatsApp 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseWhatsApp {
+            0%, 100% { 
+                box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+            }
+            50% { 
+                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        /* Back to top premium */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #d63384, #4682b4);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: clamp(50px, 10vw, 60px);
+            height: clamp(50px, 10vw, 60px);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            animation: bounceIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.2) rotate(360deg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive optimizations */
+        @media (max-width: 768px) {
+            .nav-container {
+                justify-content: center;
+                text-align: center;
+            }
+
+            nav ul {
+                width: 100%;
+                justify-content: center;
+            }
+
+            main {
+                padding-top: 180px;
+            }
+
+            .block-image-container,
+            .element-image-container {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding-top: 200px;
+            }
+
+            .blocks,
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .whatsapp-float {
+                bottom: 90px;
+                right: 20px;
+            }
+        }
+
+        /* Hover effect para desktop */
+        @media (hover: hover) {
+            .element::after {
+                content: '👆 Click para saber más';
+                position: absolute;
+                bottom: -50px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #d63384, #4682b4);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+                opacity: 0;
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+
+            .element:hover::after {
+                bottom: -60px;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vaquitas flotantes de fondo -->
+    <div class="cow-float">🐄</div>
+    <div class="cow-float">🐄</div>
+    <div class="cow-float">🐄</div>
+    <div class="cow-float">🐄</div>
+    <div class="cow-float">🐄</div>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-puzzle-piece"></i> Raíces del Cambio</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#intro">Inicio</a></li>
+                    <li><a href="#why-choose">Por qué elegir</a></li>
+                    <li><a href="#board">Tablero</a></li>
+                    <li><a href="#tipos">Tipos</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro" class="intro">
+            <h2>Bienvenido a nuestro Tablero Sensorial</h2>
+            <p>Este tablero interactivo estimula los sentidos y la motricidad fina de los niños. Explora cada elemento para aprender más sobre su importancia en el desarrollo infantil.</p>
+        </section>
+
+        <section id="why-choose" class="why-choose">
+            <h2>Por qué elegir nuestro tablero sensorial</h2>
+            <div class="blocks">
+                <div class="block">
+                    <h3><i class="fas fa-shield-alt"></i> Seguridad y diversión garantizada</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Niño jugando con tablero sensorial seguro">
+                    </div>
+                    <p>En nuestros tableros, la seguridad siempre es lo primero. Cada pieza está cuidadosamente fijada, con bordes redondeados y materiales no tóxicos, pensados para que los niños exploren con total tranquilidad. Usamos madera MDF de alta calidad y elementos resistentes para garantizar durabilidad y diversión segura.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-palette"></i> Diseño atractivo y funcional</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tablero completo con colores y piezas variadas">
+                    </div>
+                    <p>Cada tablero combina colores suaves, texturas variadas y actividades interactivas que estimulan la curiosidad y la motricidad fina. Nuestro diseño equilibra lo estético con lo educativo, brindando una experiencia sensorial completa y llena de descubrimientos.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-smile"></i> Fácil de usar y disfrutar</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Niño jugando con el tablero en una mesa">
+                    </div>
+                    <p>Los tableros están listos para jugar desde el primer momento. Solo necesitás colocarlo en una superficie firme o colgarlo en la pared. Son ideales para el hogar, jardines de infantes o centros terapéuticos, y se adaptan al ritmo y la edad de cada niño.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-heart"></i> Hecho con propósito</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equipo trabajando en el tablero">
+                    </div>
+                    <p>Cada tablero forma parte del proyecto Emprendedores Solidarios, una iniciativa escolar que busca promover valores como la empatía, la inclusión y la alegría a través del juego. Con cada creación, aportamos al desarrollo infantil y al aprendizaje con sentido.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-brain"></i> Desarrollo integral y aprendizaje</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Niño explorando el tablero sensorial">
+                    </div>
+                    <p>Nuestros tableros están diseñados para estimular múltiples áreas del desarrollo: coordinación ojo-mano, resolución de problemas, reconocimiento de colores y formas, y habilidades cognitivas. Cada elemento ha sido pensado para desafiar y nutrir la mente en crecimiento de los pequeños.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-cogs"></i> Personalización y versatilidad</h3>
+                    <div class="block-image-container">
+                        <img src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Variedad de elementos del tablero">
+                    </div>
+                    <p>Cada tablero es único y puede adaptarse a necesidades específicas. Trabajamos con familias, terapeutas y educadores para crear experiencias sensoriales que se ajusten a diferentes edades, intereses y objetivos de desarrollo. Desde elementos básicos hasta desafíos más complejos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="board" class="board">
+            <h2>Explora el Tablero Sensorial</h2>
+            <div class="elements-grid">
+                <div class="element" onclick="openModal('color')">
+                    <div class="element-image-container">
+                        <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Colores vibrantes">
+                    </div>
+                    <h3>Colores Brillantes</h3>
+                    <p>Observa y nombra los colores para estimular la vista.</p>
+                </div>
+                <div class="element" onclick="openModal('texture')">
+                    <div class="element-image-container">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Texturas suaves">
+                    </div>
+                    <h3>Texturas Suaves</h3>
+                    <p>Siente diferentes texturas para desarrollar el tacto.</p>
+                </div>
+                <div class="element" onclick="openModal('sound')">
+                    <div class="element-image-container">
+                        <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Elementos sonoros">
+                    </div>
+                    <h3>Sonidos Divertidos</h3>
+                    <p>Escucha campanas y cascabeles que despiertan curiosidad.</p>
+                </div>
+                <div class="element" onclick="openModal('motor')">
+                    <div class="element-image-container">
+                        <img src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Elementos de motricidad">
+                    </div>
+                    <h3>Motricidad Fina</h3>
+                    <p>Practica movimientos precisos con cierres y botones.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipos" class="why-choose">
+            <h2>Nuestros Tableros Sensoriales</h2>
+            <div class="blocks">
+                <div class="block">
+                    <h3><i class="fas fa-crown"></i> Tablero Premium</h3>
+                    <div class="block-image-container">
+                        <img src="tablero-premium.jpg" alt="Tablero Premium">
+                    </div>
+                    <p>Nuestro tablero más completo, diseñado con elementos de alta calidad y una variedad excepcional de texturas, colores y actividades. Perfecto para estimular todos los sentidos y brindar horas de exploración y aprendizaje.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-graduation-cap"></i> Tablero Educativo</h3>
+                    <div class="block-image-container">
+                        <img src="tablero-educativo.jpg" alt="Tablero Educativo">
+                    </div>
+                    <p>Enfocado en el desarrollo cognitivo y educativo, este tablero incluye elementos que enseñan formas, números, colores y secuencias. Ideal para jardines de infantes y entornos de aprendizaje temprano.</p>
+                </div>
+                <div class="block">
+                    <h3><i class="fas fa-compass"></i> Tablero Explorador</h3>
+                    <div class="block-image-container">
+                        <img src="tablero-explorador.jpg" alt="Tablero Explorador">
+                    </div>
+                    <p>Perfecto para los pequeños aventureros, este tablero está lleno de sorpresas táctiles y visuales que despiertan la curiosidad natural. Diseñado para fomentar la exploración independiente y el descubrimiento activo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>Contáctanos</h2>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> <a href="mailto:raicesdelcambio@ejemplo.com">raicesdelcambio@gmail.com</a></p>
+                <p><i class="fas fa-phone"></i> <a href="tel:+5493705219896">+54 370 521 9896</a></p>
+                <p><i class="fas fa-map-marker-alt"></i> Formosa, Argentina</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Raíces del Cambio - Emprendedores Solidarios. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="https://facebook.com/ivan.salinas.37819959" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com/_ezesalinas" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/5493705219896" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5493705219896" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <button class="back-to-top" onclick="scrollToTop()" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div id="colorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('colorModal')">&times;</span>
+            <h2>Colores Brillantes</h2>
+            <p>Los colores brillantes capturan la atención de los niños y ayudan en el desarrollo de la percepción visual. Identificar y nombrar colores es una de las primeras habilidades cognitivas que desarrollan los pequeños. Nuestro tablero incluye una paleta diversa y atractiva que estimula el reconocimiento de colores y la memoria visual.</p>
+        </div>
+    </div>
+
+    <div id="textureModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('textureModal')">&times;</span>
+            <h2>Texturas Suaves</h2>
+            <p>Las texturas variadas en el tablero ayudan a desarrollar el sentido del tacto y la exploración sensorial. Tocar diferentes superficies (suaves, rugosas, lisas) estimula las terminaciones nerviosas y fomenta la curiosidad. Esta exploración táctil es fundamental para el desarrollo cognitivo y la comprensión del mundo físico.</p>
+        </div>
+    </div>
+
+    <div id="soundModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('soundModal')">&times;</span>
+            <h2>Sonidos Divertidos</h2>
+            <p>Los elementos sonoros como campanas y cascabeles introducen causa y efecto: cuando el niño toca o mueve algo, produce un sonido. Esto refuerza la coordinación y la comprensión de las consecuencias de sus acciones. Además, los sonidos suaves estimulan el desarrollo auditivo sin abrumar.</p>
+        </div>
+    </div>
+
+    <div id="motorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('motorModal')">&times;</span>
+            <h2>Motricidad Fina</h2>
+            <p>Los elementos como cierres, botones, interruptores y piezas móviles desarrollan la motricidad fina y la coordinación ojo-mano. Estas habilidades son esenciales para tareas futuras como escribir, dibujar y manipular objetos pequeños. Practicar estos movimientos de forma lúdica fortalece los músculos de las manos y los dedos.</p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(type) {
+            const modalId = type + 'Modal';
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                modal.querySelector('.modal-content').style.animation = 'modalSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 10);
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('.modal-content');
+            
+            content.style.animation = 'modalSlideOut 0.3s ease-out';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                const content = event.target.querySelector('.modal-content');
+                content.style.animation = 'modalSlideOut 0.3s ease-out';
+                setTimeout(() => {
+                    event.target.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+        }
+
+        window.onscroll = function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+
+            // Parallax effect para elementos
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.intro, .why-choose, .board');
+            
+            parallaxElements.forEach((el, index) => {
+                const speed = 0.3 + (index * 0.1);
+                const yPos = -(scrolled * speed);
+                el.style.transform = `translateY(${yPos}px)`;
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 120;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer para animaciones al scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.block, .element').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            observer.observe(el);
+        });
+
+        // Agregar animación de salida del modal
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes modalSlideOut {
+                from {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(0.9) translateY(-50px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
