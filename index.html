@@ -7,12 +7,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      
 
+.dock-container {
+  position: fixed;
+  bottom: 12px;                  /* más bajo */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.dock {
+  display: flex;
+  gap: 10px;                     /* menos espacio entre iconos */
+  padding: 8px 16px;             /* más compacto */
+  list-style: none;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(25px) saturate(180%);
+  border-radius: 22px;           /* más curvo tipo Sonoma */
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.28);
+  pointer-events: auto;
+}
+
+.dock li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dock img {
+  width: 40px;                   /* ÍCONO MÁS CHICO */
+  transition: transform 0.10s linear;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.22));
+  will-change: transform;
+}
+
+.dock span {
+  font-size: 10px;               /* texto más pequeño */
+  margin-top: 3px;
+  color: white;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.dock li:hover span {
+  opacity: 1;
+}
         html {
             scroll-behavior: smooth;
         }
@@ -28,7 +69,7 @@
 
         body::before {
             content: '';
-            position: fixed;
+            position:
             top: 0;
             left: 0;
             width: 100%;
@@ -85,7 +126,7 @@
         /* Stats section con contadores animados */
         .stats-section {
             padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 3vw, 2rem);
-            margin-bottom: 400px;
+            margin-bottom: 250px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 248, 255, 0.9) 100%);
             position: relative;
             overflow: hidden;
@@ -595,18 +636,19 @@
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 900px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 0 clamp(1rem, 3vw, 2rem);
+            padding-top: 0.1rem;
+            padding-bottom: 0.1rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
         .logo {
-            display: flex;
+            display: fixed;
             align-items: center;
             justify-content: center;
             animation: logoFloat 3s ease-in-out infinite;
@@ -1455,15 +1497,11 @@
             <div class="logo">
                 <h1><i class="fas fa-puzzle-piece"></i> Raíces del Cambio</h1>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#intro">Inicio</a></li>
-                    <li><a href="#why-choose">Por qué elegir</a></li>
-                    <li><a href="#board">Tablero</a></li>
-                    <li><a href="#tipos">Modelos</a></li>
-                    <li><a href="#contact">Contacto</a></li>
-                </ul>
-            </nav>
+            <nav class="navbar">
+  
+</nav>
+                
+            
         </div>
     </header>
 
@@ -2006,7 +2044,73 @@
         `;
         document.head.appendChild(style);
     </script>
+    <!-- ============ DOCK FLOTANTE macOS ============ -->
+<div class="dock-container">
+  <ul class="dock">
+    <li>
+      <a href="#intro">
+        <img src="https://img.icons8.com/ios-filled/100/home.png">
+        <span>Inicio</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#why-choose">
+        <img src="https://img.icons8.com/ios-filled/100/like.png">
+        <span>Elegir</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#board">
+        <img src="https://img.icons8.com/ios-filled/100/box.png">
+        <span>Modelos</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#contact">
+        <img src="https://img.icons8.com/ios-filled/100/phone.png">
+        <span>Contacto</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#tipos">
+        <img src="https://img.icons8.com/ios-filled/100/grid.png">
+        <span>Tablero</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<script>
+  const dock = document.querySelector(".dock");
+  const icons = [...document.querySelectorAll(".dock img")];
+
+  dock.addEventListener("mousemove", (e) => {
+    const rect = dock.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+
+    icons.forEach((icon, i) => {
+      const iconRect = icon.getBoundingClientRect();
+      const iconCenter = iconRect.left - rect.left + iconRect.width / 2;
+
+      const distance = Math.abs(mouseX - iconCenter);
+
+      const maxScale = 1.7;
+      const minScale = 1;
+      const radius = 140;
+
+      let scale = maxScale - (distance / radius);
+      if (scale < minScale) scale = minScale;
+
+      icon.style.transform = `scale(${scale})`;
+    });
+  });
+
+  dock.addEventListener("mouseleave", () => {
+    icons.forEach(icon => icon.style.transform = "scale(1)");
+  });
+</script>
 </body>
 </html>
-
-
